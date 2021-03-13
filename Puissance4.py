@@ -1,46 +1,55 @@
+import Grille as grl
+
 class puissance4:
 
-    self.grille
-    self.vainqueur = 0
+    def __init__(self):
+        self.grille = None
+        self.vainqueur = 0
 
-def debut():
-    hauteur = input("Entrez hauteur")
-    while(hauteur < 4) && (type(hauteur) != int) :
-        hauteur = input("Mauvaise valeure, choisir une hauteur supérieure à 4")
-    
-    largeur = input("Entrez largeur")
-    while(largeur < 4) && (type(largeur) != int) :
-        largeur = input("Mauvaise valeure, choisir une largeur supérieure à 4")
+    def debut(self):
+        hauteur = int(input("Entrez hauteur"))
+
+        while(hauteur < 4) and (type(hauteur) != int) :
+            hauteur = int(input("Mauvaise valeure, choisir une hauteur supérieure à 4"))
         
-    self.grille = Grille(hauteur, longueur)
-    partie()
-
-def partie():
-    joueur = 1
-    continuer = True
-    while( continuer ):
-        colonne = input("Joueur "+joueur+" entrez votre prochain coup")
-        valide = coup(joueur, colonne)
-        while(valide != 0):
-            if valide == 1:
-                print("Mauvaise valeure")
-            if valide == 2:
-                print("Colonne pleine")
-            colonne = input("Joueur "+joueur+" rejouez votre coup")
-            valide = coup(joueur, colonne)
-
-        if self.grille.test_rempli() :
-            continuer = False
-        elif self.grille.test_fin() :
-            self.vainqueur = joueur
-            continuer = False
+        largeur = int(input("Entrez largeur"))
+        while(largeur < 4) and (type(largeur) != int) :
+            largeur = int(input("Mauvaise valeure, choisir une largeur supérieure à 4"))
             
-        joueur = joueur % 2 + 1
-        
-    fin()
+        self.grille = grl.Grille(hauteur, largeur)
+        self.partie()
 
-def fin():
-    if vainqueur == 0:
-        print("Match nul")
-    else:
-        print("Joueur " + self.vainqueur +" a gagné !")
+    def partie(self):
+        joueur = 1
+        continuer = True
+        while( continuer ):
+            self.grille.affichage()
+
+            colonne = int(input("Joueur "+str(joueur)+" entrez votre prochain coup"))
+            valide = self.grille.coup(joueur, colonne)
+            while(valide != 0):
+                if valide == 1:
+                    print("Mauvaise valeure")
+                if valide == 2:
+                    print("Colonne pleine")
+                colonne = int(input("Joueur "+str(joueur)+" rejouez votre coup"))
+                valide = self.grille.coup(joueur, colonne)
+
+            if self.grille.test_rempli() :
+                continuer = False
+            elif self.grille.test_fin() :
+                self.vainqueur = joueur
+                continuer = False
+
+            joueur = joueur % 2 + 1
+
+        self.fin()
+
+    def fin(self):
+        if self.vainqueur == 0:
+            print("Match nul")
+        else:
+            print("Joueur " + str(self.vainqueur) +" a gagné !")
+            
+jeu = puissance4()
+jeu.debut()

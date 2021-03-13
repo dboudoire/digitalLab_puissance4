@@ -13,7 +13,18 @@ class Grille:
         self.hauteur = hauteur
         self.grille = numpy.zeros((hauteur, longueur))
         self.derniercoup = [0,0]
-        
+    
+    def ia_win(self, joueur, colonne):
+        valide = self.coup(joueur, colonne)
+        if valide == 2:
+            return False
+        if valide == 0 :
+            if self.test_fin():
+                return True
+            else :
+                self.grille[self.derniercoup[0],self.derniercoup[1]] = 0
+                return False
+
     def coup(self, joueur, colonne):
         if (colonne > self.longueur-1) or (colonne <0):
             return 1

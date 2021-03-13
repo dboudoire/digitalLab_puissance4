@@ -1,4 +1,5 @@
 import Grille as grl
+from Grille import *
 import random
 
 class puissance4:
@@ -78,17 +79,23 @@ class puissance4:
                         self.vainqueur = joueur
                         continuer = False
                 else : # Ordi
-                    colonne = random.randint(0,self.grille.longueur - 1)
-                    print("ordinateur a joué la colonne {0}:".format(colonne))
-                    valide = self.grille.coup(joueur, colonne)
-                    while(valide != 0):
-                        if valide == 1:
-                            print("Mauvaise valeure")
-                        if valide == 2:
-                            print("Colonne pleine")
+                    check = False
+                    for i in range(self.grille.longueur - 1):
+                        check = self.grille.ia_win(joueur, i)
+                        if check :
+                            colonne = i
+                            break
+                        else:
+                            i+=1
+
+                    if not check :
                         colonne = random.randint(0,self.grille.longueur - 1)
-                        print("ordinateur a rejoué la colonne {0}:".format(colonne))
                         valide = self.grille.coup(joueur, colonne)
+                        while(valide != 0):
+                            colonne = random.randint(0,self.grille.longueur - 1)
+                            valide = self.grille.coup(joueur, colonne)
+                    
+                    print("ordinateur a joué la colonne {0}:".format(colonne))
 
                     if self.grille.test_rempli() :
                         continuer = False
@@ -106,17 +113,23 @@ class puissance4:
             while( continuer ):
                 self.grille.affichage()
 
-                colonne = random.randint(0,self.grille.longueur - 1)
-                print("ordinateur {0} a joué la colonne {1}:".format(joueur,colonne))
-                valide = self.grille.coup(joueur, colonne)
-                while(valide != 0):
-                    if valide == 1:
-                        print("Mauvaise valeure")
-                    if valide == 2:
-                        print("Colonne pleine")
+                check = False
+                for i in range(self.grille.longueur - 1):
+                    check = self.grille.ia_win(joueur, i)
+                    if check :
+                        colonne = i
+                        break
+                    else:
+                        i+=1
+
+                if not check :
                     colonne = random.randint(0,self.grille.longueur - 1)
-                    print("ordinateur {0} a rejoué la colonne {1}:".format(joueur,colonne))
                     valide = self.grille.coup(joueur, colonne)
+                    while(valide != 0):
+                        colonne = random.randint(0,self.grille.longueur - 1)
+                        valide = self.grille.coup(joueur, colonne)
+                
+                print("ordinateur {0} a joué la colonne {1}:".format(joueur,colonne))
 
                 if self.grille.test_rempli() :
                     continuer = False
@@ -129,6 +142,8 @@ class puissance4:
             self.fin()
 
     def fin(self):
+        self.grille.affichage()
+
         if self.vainqueur == 0:
             print("Match nul")
         else:
